@@ -1,18 +1,12 @@
 <template>
-  <h1>This is the Auth Page</h1>
 
-<div>
-<SignUp />
-<SignIn />
-
-  </div>
-
-    
+<div class="bg-blue-600 h-full">
+<router-view></router-view>
+</div>
 </template>
 
-<script>
-import SignUpVue from "../components/SignUp.vue";
-import SignInVue from "../components/SignIn.vue";
+<script setup>
+// import { ref } from 'vue'
 
 </script>
 

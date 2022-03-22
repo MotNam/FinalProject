@@ -52,6 +52,12 @@ function removeTask(task) {
     <button @click="hideCompleted = !hideCompleted">
     {{ hideCompleted ? 'Show all tasks' : 'Hide completed' }}
   </button>
+
+<div>
+  <button @click="SignOut">Sign Out
+
+  </button>
+  </div>
   </div>
  
 </template>

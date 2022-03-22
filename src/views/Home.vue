@@ -1,14 +1,20 @@
 <template>
   <h1 class="text-3xl font-bold">
-    This is the Home Page
+    Home Page
   </h1>
+<!-- <div>
+  <Login />
+</div> -->
+<div>
+  <button @click="SignOut">Sign Out</button>
+  </div>
 
 </template>
 
-<script>
-export default {
+<script setup>
+import { ref } from "vue";
+import Login from "../components/Login.vue"
 
-}
 </script>
 
 <style>
