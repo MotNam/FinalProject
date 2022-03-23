@@ -1,5 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue';
+import { supabase } from "../supabase";
+import { useRouter } from "vue-router";
+import { useTaskStore } from "../store/task";
+// import { useUserStore } from "../store/user";
+import { storeToRefs } from "pinia";
 
 // give each task a unique id
 let id = 0
@@ -29,6 +34,19 @@ function addTask() {
 function removeTask(task) {
   tasks.value.splice(task, 1);
 }
+
+//Setup ref to router(for Logout)
+const router = useRouter()
+
+//Log out 
+async function logout(){
+  const { error } = await supabase.auth.signOut()
+  router.push ('/auth');
+};
+//To Create a new task on Supabase
+const store = useTaskStore
+const { user } = storeToRefs(userStore)
+
 </script>
 
 <template>
@@ -39,6 +57,9 @@ function removeTask(task) {
     <button>Add New Task</button>    
   </form>
  
+ <!-- Store new task -->
+  <button @submit.prevent="createTask">Register Task</button>
+
  <!-- iterate through each task to add delete function , and update list by filtering &   -->
     <div v-for= "task in filteredTasks" :key="task.id">
     <input type="checkbox" v-model = "task.done">
@@ -54,7 +75,7 @@ function removeTask(task) {
   </button>
 
 <div>
-  <button @click="SignOut">Sign Out
+  <button @click="logout">Log Out
 
   </button>
   </div>

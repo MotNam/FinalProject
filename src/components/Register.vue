@@ -1,6 +1,5 @@
 <template>
   
-  <h1>Register Page</h1>
   <!-- error handling -->
   
   <div v-if="errorMsg">
@@ -38,12 +37,17 @@
           placeholder ="confirm password"
           class ="">   
     </div>
-    <button type="submit" class="bg-black text-white">registration</button>
+    <button type="submit" class="bg-black text-white">Submit</button>
    </form>
   
    
 <div>
-    <router-link to="login">Click to Log In</router-link>
+    <p>Have an account? 
+       <RouteOne class="" 
+        :route="route"
+        :buttonText="buttonText"
+       />
+      </p>
 </div>
    
 
@@ -58,17 +62,21 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
 import { supabase } from "../supabase";
 import RouteOne from "./RouteOne.vue";
+import Login from "./Login.vue";
 
-const user = useUserStore();
-const route = "/auth";
-const buttonText = "Log In";
+
   const email = ref(null);
   const password = ref(null);
   const confirmPassword = ref(null);
   const errorMsg = ref(null);
   const router = useRouter();
+  const user = useUserStore();
+
+ const route = "/auth";
+ const buttonText = "Log In";
 
 //Registration function//
+
   async function registration() { 
     if (password.value === confirmPassword.value) {
       try {
@@ -83,13 +91,13 @@ const buttonText = "Log In";
         errorMsg.value = error.message;
         setTimeOut (() => {
         errorMsg.value = null;
-    }, 3000)
+    }, 5000)
       }
     } else {
      errorMsg.value = "Error: passwords don't match";
      setTimeOut (() => {
        errorMsg.value = null;
-    }, 3000)
+    }, 5000)
     }  
   };
 

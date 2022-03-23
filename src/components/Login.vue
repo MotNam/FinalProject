@@ -9,7 +9,6 @@
 
   <!-- Sign In -->
 <form @submit.prevent="login">
-  <h2>Log In</h2>
     <label>Email</label>
     <div>
     <input type="text" 
@@ -38,7 +37,7 @@
         :route="route"
         :buttonText="buttonText"
        />
-       <span>Click to Register</span></p>
+      </p>
     
 </template>
 
@@ -54,13 +53,17 @@ import { useUserStore } from "../store/user";
   
   const user = useUserStore();
   let route = "/auth/register";
-  let buttonText = "Register"
+  let buttonText = "Register here"
   const router =useRouter()
+
   const email = ref(null);
   const password = ref(null);
   const errorMsg = ref(null);
 
   //login function//
+  
+  // Can be replaced by user.signIn()??
+
 async function login(){
   try {
     const {error} = await supabase.auth.signIn({
@@ -74,7 +77,7 @@ async function login(){
     errorMsg.value = `Error: ${error.message}`;
    setTimeOut (() => {
         errorMsg.value = null;
-    }, 3000)
+    }, 5000)
   }
 
 }

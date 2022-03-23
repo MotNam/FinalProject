@@ -1,6 +1,6 @@
 <template>
  
-<Nav />
+<!-- <Nav /> -->
   <div class="container" style="padding: 50px 0 100px 0">
   </div>
 
@@ -8,18 +8,20 @@
 
   <section>
 
-<router-view class="app-main" /> <!-- your routes will load inside of these tags -->      
+<router-view class="app-main" />    
   </section>
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { supabase } from "./Supabase";
 import { createClient } from "@supabase/supabase-js";
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './store/user'
 import Nav from './components/Nav.vue'
-import Auth from './views/Auth.vue'
+
 
 
 const router = useRouter()
