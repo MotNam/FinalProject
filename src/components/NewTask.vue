@@ -1,9 +1,9 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
 import { useTaskStore } from "../store/task";
-// import { useUserStore } from "../store/user";
+import { useUserStore } from "../store/user";
 import { storeToRefs } from "pinia";
 
 // give each task a unique id
@@ -35,6 +35,14 @@ function removeTask(task) {
   tasks.value.splice(task, 1);
 }
 
+///// Edit task ////NEED to Check///
+
+function editTask(task) {
+  newTask.value = newTask.text
+  tasks.value.splice(task, 1)
+
+}
+
 //Setup ref to router(for Logout)
 const router = useRouter()
 
@@ -43,11 +51,12 @@ async function logout(){
   const { error } = await supabase.auth.signOut()
   router.push ('/auth');
 };
-//To Create a new task on Supabase
-const store = useTaskStore
-const { user } = storeToRefs(userStore)
+/////To Create a new task on Supabase...in progress/
+// const store = useTaskStore
+// const { user } = storeToRefs(userStore)
 
 </script>
+
 
 <template>
   <div>
@@ -56,9 +65,9 @@ const { user } = storeToRefs(userStore)
     <input v-model="newTask">
     <button>Add New Task</button>    
   </form>
- 
- <!-- Store new task -->
+ <div><!-- Store new task -->
   <button @submit.prevent="createTask">Register Task</button>
+  </div>
 
  <!-- iterate through each task to add delete function , and update list by filtering &   -->
     <div v-for= "task in filteredTasks" :key="task.id">
@@ -74,6 +83,13 @@ const { user } = storeToRefs(userStore)
     {{ hideCompleted ? 'Show all tasks' : 'Hide completed' }}
   </button>
 
+<!-- Edit task -->
+<!-- <div>
+  <button @submit.prevent="editTask(task)" class="">Edit task</button>
+</div>
+  -->
+
+<!-- Logout -->
 <div>
   <button @click="logout">Log Out
 

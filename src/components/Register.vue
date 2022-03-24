@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-// src/views/Register.vue
+
 // import { reactive } from 'vue'
 
 import { ref } from "vue";
@@ -62,7 +62,7 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
 import { supabase } from "../supabase";
 import RouteOne from "./RouteOne.vue";
-import Login from "./Login.vue";
+// import Login from "./Login.vue";
 
 
   const email = ref(null);

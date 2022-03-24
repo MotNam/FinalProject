@@ -1,4 +1,3 @@
-import vuePlugin from "@vitejs/plugin-vue";
 import { defineStore } from "pinia";
 import { supabase } from "../supabase";
 export const useTaskStore = defineStore("tasks", {
@@ -15,24 +14,24 @@ export const useTaskStore = defineStore("tasks", {
       this.tasks = tasks;
     },
 
-    //Add new task to Supabase
+    //Add new task to Supabase??
 
-    async createTask(task) {
-      const { data, error } = await supabase.from("tasks").insert([
-        {
-          id: id++,
-          user: user,
-          title: newTask.value,
-        },
-      ]);
+    // async createTask(task) {
+    //   const { data, error } = await supabase.from("tasks").insert([
+    //     {
+    //       id: id++,
+    //       user: this.user,
+    //       title: newTask.value,
+    //     },
+    //   ]);
 
-      if (error) {
-        alert(error.message);
-        console.error("error inserting", error);
-        return null;
-      } else {
-        alert("task created");
-      }
-    },
+    //   if (error) {
+    //     alert(error.message);
+    //     console.error("error ", error);
+    //     return null;
+    //   } else {
+    //     alert("task created");
+    //   }
+    // },
   },
 });

@@ -20,7 +20,8 @@ import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './store/user'
-import Nav from './components/Nav.vue'
+import Auth from './views/Auth.vue'
+// import Nav from './components/Nav.vue'
 
 
 
