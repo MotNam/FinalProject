@@ -4,7 +4,7 @@ import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
 import { useTaskStore } from "../store/task";
 import { useUserStore } from "../store/user";
-import { storeToRefs } from "pinia";
+
 
 // give each task a unique id
 let id = 0
@@ -35,13 +35,13 @@ function removeTask(task) {
   tasks.value.splice(task, 1);
 }
 
-///// Edit task ////NEED to Check///
+///// Edit task ////Not working///
 
-function editTask(task) {
-  newTask.value = newTask.text
-  tasks.value.splice(task, 1)
+// function editTask(index) {
+//   task.value(index)  = newTask.value
+//   tasks.value.splice(task, 1)
 
-}
+// }
 
 //Setup ref to router(for Logout)
 const router = useRouter()
@@ -53,8 +53,24 @@ async function logout(){
 };
 /////To Create a new task on Supabase...in progress/
 // const store = useTaskStore
-// const { user } = storeToRefs(userStore)
+// const user = useUserStore
 
+//  async function createTask(task) {
+//       const { data, error } = await supabase.from("tasks").insert([
+//         {
+//           user: this.user,
+//           title: newTask.value,
+//         },
+//       ]);
+//           console.log(tasks.value)
+//       if (error) {
+//         alert(error.message);
+//         console.error("error ", error);
+//         return null;
+//       } else {
+//         alert("task created");
+//       }
+//     }
 </script>
 
 
@@ -70,11 +86,11 @@ async function logout(){
   </div>
 
  <!-- iterate through each task to add delete function , and update list by filtering &   -->
-    <div v-for= "task in filteredTasks" :key="task.id">
+    <div v-for="task in filteredTasks"  :key="task.id">
     <input type="checkbox" v-model = "task.done">
      <span :class ="{done: task.done }"> {{ task.text }}</span>
 
-      <button @click="removeTask(task)">Delete </button>
+      <button @click="removeTask(index)">Delete </button>
     </div>
 
     <!-- Hide if completed, otherwise Show tasks -->
@@ -84,10 +100,10 @@ async function logout(){
   </button>
 
 <!-- Edit task -->
-<!-- <div>
-  <button @submit.prevent="editTask(task)" class="">Edit task</button>
+<div>
+  <button @submit.prevent="editTask(index)" class="">Edit task</button>
 </div>
-  -->
+ 
 
 <!-- Logout -->
 <div>
