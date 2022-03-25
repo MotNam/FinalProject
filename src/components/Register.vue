@@ -80,11 +80,13 @@ import RouteOne from "./RouteOne.vue";
   async function registration() { 
     if (password.value === confirmPassword.value) {
       try {
-        const {error} = await supabase.auth.signUp ({
-          email: email.value,
-          password: password.value,
-        });
-        if (error) throw error;
+        await user.signUp(email.value, password.value);
+
+        // const {error} = await supabase.auth.signUp ({
+        //   email: email.value,
+        //   password: password.value,
+        // });
+        // if (error) throw error;
         router.push('/');
       } 
       catch (error) {

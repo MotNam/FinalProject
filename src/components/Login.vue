@@ -46,7 +46,7 @@
 // import { reactive } from 'vue'
 
 import { ref } from "vue";
-import { supabase } from "../supabase";
+// import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
 import RouteOne from "./RouteOne.vue";
 import { useUserStore } from "../store/user";
@@ -66,12 +66,11 @@ import { useUserStore } from "../store/user";
 
 async function login(){
   try {
-    const {error} = await supabase.auth.signIn({
-      email: email.value,
-      password: password.value,
-    });
-    if (error) throw error;
+    await user.signIn(email.value, password.value);
+    console.log(email, password)
+    // if (error) throw error;
     router.push ('/');
+    console.log(email, password)
   }
   catch (error){
     errorMsg.value = `Error: ${error.message}`;
@@ -79,7 +78,6 @@ async function login(){
         errorMsg.value = null;
     }, 5000)
   }
-
 }
 
 </script>

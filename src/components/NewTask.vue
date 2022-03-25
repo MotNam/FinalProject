@@ -22,14 +22,16 @@ const filteredTasks = computed(() => {
     ? tasks.value.filter((t) => !t.done)
     : tasks.value
 })
-function addTask() {
-  tasks.value.push({ 
-    id: id++, 
-    text: newTask.value, 
-    done: false })
 
-  newTask.value = ' '
-}
+
+// function addTask() {
+//   tasks.value.push({ 
+//     id: id++, 
+//     text: newTask.value, 
+//     done: false })
+
+//   newTask.value = ' '
+// }
 
 function removeTask(task) {
   tasks.value.splice(task, 1);
@@ -45,47 +47,42 @@ function removeTask(task) {
 
 //Setup ref to router(for Logout)
 const router = useRouter()
+const user = useUserStore()
 
-//Log out 
+//Log out function
+
 async function logout(){
-  const { error } = await supabase.auth.signOut()
+  await user.signOut();
   router.push ('/auth');
 };
-/////To Create a new task on Supabase...in progress/
-// const store = useTaskStore
-// const user = useUserStore
 
-//  async function createTask(task) {
-//       const { data, error } = await supabase.from("tasks").insert([
-//         {
-//           user: this.user,
-//           title: newTask.value,
-//         },
-//       ]);
-//           console.log(tasks.value)
-//       if (error) {
-//         alert(error.message);
-//         console.error("error ", error);
-//         return null;
-//       } else {
-//         alert("task created");
-//       }
-//     }
+//To register a new task on Supabase & display
+
+const storeTasks = useTaskStore();
+const registeredTasks = ref ([]);
+
+async function addTask() {
+  await storeTasks.createTask(newTask.value);
+  tasks.value.push({ 
+   id: id++, 
+   text: newTask.value, 
+   done: false 
+   })
+ newTask.value = ' '
+ storeTasks.fetchTasks();
+  }
+
 </script>
 
 
 <template>
   <div>
       <!-- Add new task  -->
-     <form @submit.prevent="addTask">
+      <div v-for="task in registeredTasks" :key="task.id"></div>
     <input v-model="newTask">
-    <button>Add New Task</button>    
-  </form>
- <div><!-- Store new task -->
-  <button @submit.prevent="createTask">Register Task</button>
-  </div>
+    <button @click="addTask">Add New Task</button>    
 
- <!-- iterate through each task to add delete function , and update list by filtering &   -->
+ <!-- iterate through each task to add delete function , and update list by filtering   -->
     <div v-for="task in filteredTasks"  :key="task.id">
     <input type="checkbox" v-model = "task.done">
      <span :class ="{done: task.done }"> {{ task.text }}</span>
@@ -94,12 +91,12 @@ async function logout(){
     </div>
 
     <!-- Hide if completed, otherwise Show tasks -->
-
+<div>
     <button @click="hideCompleted = !hideCompleted">
     {{ hideCompleted ? 'Show all tasks' : 'Hide completed' }}
   </button>
-
-<!-- Edit task -->
+</div>
+<!-- Edit task not working-->
 <div>
   <button @submit.prevent="editTask(index)" class="">Edit task</button>
 </div>
