@@ -7,16 +7,19 @@
   </div>
    
   <!-- Registration -->
-<form @submit.prevent="registration">
-  <h2>Register</h2>
-    <label>Email</label>
+<form @submit.prevent="registration" class="py-10 ml-3  text-cyan-200
+  ">
+  <h2 class="text-3xl font-medium mb-20">Sign Up</h2>
+
+  <div class="md:flex mb-10">
+    <label class="text-md font-medium mb-10">Email</label>
     <div>
     <input type="text" 
           v-model="email" 
           id = "email" 
           required="required"
-          placeholder ="Email"
-          class ="">   
+          placeholder ="example@email.com"
+          class ="p-3 mb-5 md:flex min-w-fit rounded">   
     </div>
      <label>Password</label>
     <div>
@@ -25,7 +28,7 @@
           id = "password" 
           required ="required"
           placeholder ="Password"
-          class ="">   
+          class ="p-3  mb-3 md:flex min-w-fit rounded">   
     </div>
 
       <label>Confirm Password</label>
@@ -35,15 +38,16 @@
           id = "confirmPassword" 
           required="required"
           placeholder ="confirm password"
-          class ="">   
+          class ="p-3  mb-5 md:flex min-w-fit rounded">   
     </div>
-    <button type="submit" class="bg-black text-white">Submit</button>
+    <button type="submit" class="bg-gray-600 text-gray-200 p-2 rounded hover:bg-gray-500 hover:font-bold">Submit</button>
+    </div>
    </form>
   
    
-<div>
-    <p>Have an account? 
-       <RouteOne class="" 
+<div class="p-2 md:flex ">
+    <p class="py-4 text-gray-800">Have an account? 
+       <RouteOne class="bg-cyan-200 text-gray-700 p-2 mt-2 rounded hover:bg-gray-200 hover:font-bold" 
         :route="route"
         :buttonText="buttonText"
        />

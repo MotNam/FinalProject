@@ -1,6 +1,9 @@
 <template>
-   
-  <h1>Log In Page</h1>
+   <div class="py-10 ml-3
+    text-3xl text-cyan-100 font-medium">
+      <h1>Task Organizer</h1>
+  </div> 
+ 
   <!-- error handling -->
  
     <div v-if="errorMsg">
@@ -8,37 +11,39 @@
   </div>
 
   <!-- Sign In -->
-<form @submit.prevent="login">
-    <label>Email</label>
-    <div>
+<form @submit.prevent="login" class="p-4">
+    <label class="text-cyan-300">Email</label>
+    <div class="mb-5">
     <input type="text" 
           v-model="email" 
           id = "email" 
           required="required"
           placeholder ="Email"
-          class ="">   
+          class ="p-3 md:flex min-w-fit rounded">   
     </div>
-     <label>Password</label>
+     <label class="text-cyan-300">Password</label>
     <div>
     <input type="password" 
           v-model="password" 
           id = "password" 
           required ="required"
           placeholder ="Password"
-          class ="">   
+          class ="p-3 md:flex min-w-fit rounded">   
     </div>
 
-     <button type="submit">Log In</button>
+     <button type="submit" class=" mt-2 hover:text-cyan-200 bold">Log In</button>
 
     </form>
    
-   <p>Not registered? 
-       <RouteOne class="" 
+   <div class="p-2 md:flex ">
+   <p class="py-4 ">Not registered? 
+      
+      </p>
+       <RouteOne class="bg-cyan-200 text-cyan-900 p-2 mt-2 rounded hover:bg-gray-200 text-semibold" 
         :route="route"
         :buttonText="buttonText"
        />
-      </p>
-    
+    </div>
 </template>
 
 <script setup>
@@ -50,19 +55,20 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import RouteOne from "./RouteOne.vue";
 import { useUserStore } from "../store/user";
+import { useTaskStore } from "../store/task";
   
   const user = useUserStore();
   let route = "/auth/register";
-  let buttonText = "Register here"
+  let buttonText = "Sign Up"
   const router =useRouter()
 
   const email = ref(null);
   const password = ref(null);
   const errorMsg = ref(null);
 
+
   //login function//
   
-  // Can be replaced by user.signIn()??
 
 async function login(){
   try {
@@ -81,7 +87,6 @@ async function login(){
 }
 
 </script>
-
 
 <style>
 

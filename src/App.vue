@@ -1,8 +1,8 @@
 <template>
  
 <!-- <Nav /> -->
-  <div class="container" style="padding: 50px 0 100px 0">
-  </div>
+  <!-- <div class="container" style="padding: 50px 0 100px 0">
+  </div> -->
 
    <!-- Check if user is available in the store, if not show auth compoenent -->
 
