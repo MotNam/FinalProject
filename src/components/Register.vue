@@ -28,7 +28,7 @@
           id = "password" 
           required ="required"
           placeholder ="Password"
-          class ="p-3  mb-3 md:flex min-w-fit rounded">   
+          class="p-3  mb-3 md:flex min-w-fit rounded">   
     </div>
 
       <label>Confirm Password</label>
