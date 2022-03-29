@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 const newTask = ref("")
 const allTasks = ref([])
 const errorMsg = ref("")
-const editStatus = ref(null);
+const nowEditing = ref(null);
 
 const storeTasks = useTaskStore();
 const user = useUserStore();
@@ -18,7 +18,8 @@ const router = useRouter();
 async function fetchAllTasks(){
   allTasks.value = await storeTasks.fetchTasks();
   console.log(allTasks.value)
-}
+};
+
 fetchAllTasks();
 
 async function addTask() {  
@@ -26,15 +27,14 @@ async function addTask() {
   await fetchAllTasks();
   console.log(newTask.value);
   newTask.value = ' ';
-  }
+  };
 
 ///// Edit task ////
 async function editMyTask(item) {
-  editStatus.value = !editStatus.value;
+  nowEditing.value = !nowEditing.value;
   await storeTasks.editTask(item.title, item.id)
   await fetchAllTasks();
-}
-
+};
 
 async function removeTask(task) {
   // const taskId = user.task.title
@@ -52,29 +52,33 @@ async function logout(){
 
 <template>
 
-<div class="md:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-bold">
+<div class="md:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin">
       <!-- Add new task  -->
       <div class="" v-for="task in allTasks" :key="task.id"></div>
-    <input v-model="newTask"
+    <input 
+    v-model="newTask"
     class="md:flex min-w-full p-4 rounded" 
     type="text"
-    placeholder=" input task here "/>
+    placeholder=" write here... "/>
     
     <div class="mb-5">
-    <button @click ="addTask" class="md:flex bg-gray-500 text-stone-200 p-4 rounded hover:text-yellow-200">+ Add</button>  
+    <button @click ="addTask" class=" bg-gray-500 text-stone-300 p-4 rounded hover:text-yellow-200">➕ Add task</button>  
     </div>  
 
      <!-- show each task input--->
     <div v-for="task in allTasks"  :key="task.id">
-    <input class="p-10" type="checkbox">
-    <span class ="p-2">{{ task.title }}</span>
+     <span type="text" class ="p-2 underline-offset-8 underline decoration-yellow-600 ">{{ task.title }}</span>
 
-<!--  delete button -->
-      <button @click ="removeTask(task)" class="p-5 text-xl font-thin hover:text-stone-200-bold">Delete task
+
+    <!---edit button---->
+
+    <button @click ="editMyTask(task)" class="p-5 hover:bg-stone-200">🖍️</button>
+    <!--  delete button -->
+
+      <button @click ="removeTask(task)" class="p-5 text-xl hover:bg-stone-200">🗑️
       </button>
-       
-    <!-- <button @click ="editMyTask(index)" class="my-5">Edit task</button> -->
-    </div>
+       </div>
+   
 
 <!-- Edit task -->
 <!-- <div>
@@ -95,7 +99,7 @@ async function logout(){
 
 <!-- Logout -->
 <div class="mt-20">
-  <button @click ="logout" class="text-gray-600 p-2 rounded hover:bg-gray-200 font-medium py-10">Log Out
+  <button @click ="logout" class="rounded hover:bg-gray-200 font-medium py-4">Log Out
 </button>
   </div>
 </div>
