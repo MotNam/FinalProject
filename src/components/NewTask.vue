@@ -9,33 +9,36 @@ import { useRouter } from "vue-router";
 const newTask = ref("")
 const allTasks = ref([])
 const errorMsg = ref("")
+const editStatus = ref(null);
 
-const storeTasks = useTaskStore()
-const user = useUserStore()
-const router = useRouter()
+const storeTasks = useTaskStore();
+const user = useUserStore();
+const router = useRouter();
 
 async function fetchAllTasks(){
-  const myList = await storeTasks.fetchTasks();
-  allTasks.value = myList;
-  console.log("hola");
+  allTasks.value = await storeTasks.fetchTasks();
+  console.log(allTasks.value)
 }
 fetchAllTasks();
 
-async function addTask() {
-  console.log('object');
+async function addTask() {  
   await storeTasks.createTask(newTask.value);
   await fetchAllTasks();
+  console.log(newTask.value);
   newTask.value = ' ';
   }
 
 ///// Edit task ////
-// function editTask(index) {
-//   task.value(index)  = newTask.value
-//   tasks.value.splice(task, 1)
-// }
+async function editMyTask(item) {
+  editStatus.value = !editStatus.value;
+  await storeTasks.editTask(item.title, item.id)
+  await fetchAllTasks();
+}
+
 
 async function removeTask(task) {
-  await storeTasks.deleteTask(task.id)
+  // const taskId = user.task.title
+  await storeTasks.deleteTask(task.id);
   await fetchAllTasks();
 }
 
@@ -58,37 +61,43 @@ async function logout(){
     placeholder=" input task here "/>
     
     <div class="mb-5">
-    <button @click="addTask" class="md:flex bg-gray-500 text-stone-200 p-4 rounded hover:text-yellow-200">+ Add</button>  
+    <button @click ="addTask" class="md:flex bg-gray-500 text-stone-200 p-4 rounded hover:text-yellow-200">+ Add</button>  
     </div>  
-    
 
- <!-- show each task with delete function added -->
+     <!-- show each task input--->
     <div v-for="task in allTasks"  :key="task.id">
     <input class="p-10" type="checkbox">
-     <span class ="p-2">{{ task.title }}</span>
+    <span class ="p-2">{{ task.title }}</span>
 
-
-      <button @click ="removeTask(task.id)" class="p-5 text-xl font-thin hover:text-stone-200-bold">Delete task
+<!--  delete button -->
+      <button @click ="removeTask(task)" class="p-5 text-xl font-thin hover:text-stone-200-bold">Delete task
       </button>
+       
+    <!-- <button @click ="editMyTask(index)" class="my-5">Edit task</button> -->
     </div>
 
-    <!-- Hide if completed, otherwise Show tasks -->
+<!-- Edit task -->
+<!-- <div>
+   <div v-for="task in allTasks"  :key="task.id">
+    <input v-if="editStatus"
+    v-model="task.title"
+    class="p-10" type="checkbox">
+    <span class ="p-2" v-else>{{ task.title }}</span>
+  <button @click ="editMyTask(index)" class="my-5">Edit task</button>
+</div> -->
+
+ <!-- Hide if completed, otherwise Show tasks -->
 <div class="mt-20">
-    <button @click="hideCompleted = !hideCompleted">
+    <button @click ="hideCompleted = !hideCompleted">
     {{ hideCompleted ? 'Show all tasks' : 'Hide completed' }}
   </button>
-</div>
-<!-- Edit task not working-->
-<div>
-  <button @click="editTask(index)" class="my-5">Edit task</button>
 </div>
 
 <!-- Logout -->
 <div class="mt-20">
-  <button @click="logout" class="text-gray-600 p-2 rounded hover:bg-gray-200 font-medium py-10">Log Out
+  <button @click ="logout" class="text-gray-600 p-2 rounded hover:bg-gray-200 font-medium py-10">Log Out
 </button>
   </div>
 </div>
 
- 
 </template>

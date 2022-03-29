@@ -14,13 +14,13 @@ export const useTaskStore = defineStore("tasks", {
         .from("tasks") // Select the Table
         .select("*")
         .order("id", { ascending: false });
-      this.tasks = tasks;
+      return (this.tasks = tasks);
     },
     // Add new task to Supabase
 
     async createTask(title) {
       const myUser = useUserStore();
-      console.log(myUser.user.id);
+      // console.log(myUser.user.id);
       console.log(title);
       const { data, error } = await supabase.from("tasks").insert([
         {
@@ -32,22 +32,28 @@ export const useTaskStore = defineStore("tasks", {
       if (error) throw error;
     },
 
-    // async updateList(tasks) {
-    //   const { data, error} = await supabase
-    //   .from ("tasks")
-    //   .update ({})
-    // }
-
-    async deleteTask(task) {
+    // Delete task
+    async deleteTask(item) {
       try {
         const { data, error } = await supabase
           .from("tasks")
           .delete()
-          .match("id", task);
-        console.log("task deleted", task);
+          .match({ id: item });
+        // console.log("task deleted", item);
       } catch (error) {
         console.log("error", error);
       }
+    },
+    //Edit task
+
+    async editTask(item, index) {
+      console.log(item);
+      console.log(index);
+      const { error } = await supabase
+        .from("tasks")
+        .update({ title: item })
+        .match({ id: index });
+      console.log("task deleted", item);
     },
   },
 });
