@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 const newTask = ref("")
 const allTasks = ref([])
 const errorMsg = ref("")
-const nowEditing = ref(null);
+const nowEditing = ref(false);
 
 const storeTasks = useTaskStore();
 const user = useUserStore();
@@ -30,11 +30,16 @@ async function addTask() {
   };
 
 ///// Edit task ////
-async function editMyTask(item) {
-  nowEditing.value = !nowEditing.value;
-  await storeTasks.editTask(item.title, item.id)
-  await fetchAllTasks();
+async function changeState() {
+  nowEditing.value = true;
+  
 };
+
+async function saveEdit(item){
+  await storeTasks.editTask(item.title, item.id)
+  nowEditing.value = false;
+  await fetchAllTasks();
+}
 
 async function removeTask(task) {
   // const taskId = user.task.title
@@ -72,9 +77,13 @@ async function logout(){
 
     <!---edit button---->
 
-    <button @click ="editMyTask(task)" class="p-5 hover:bg-stone-200">🖍️</button>
+    <button @click="changeState()" class="p-5 hover:bg-stone-200">🖍️</button>
+    <input v-if ="nowEditing" 
+     v-model = "task.title"
+    />
+    <button @click ="saveEdit(task)">save</button> 
+    
     <!--  delete button -->
-
       <button @click ="removeTask(task)" class="p-5 text-xl hover:bg-stone-200">🗑️
       </button>
        </div>

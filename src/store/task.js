@@ -53,7 +53,6 @@ export const useTaskStore = defineStore("tasks", {
         .from("tasks")
         .update({ title: item })
         .match({ id: index });
-      console.log("task deleted", item);
     },
   },
 });
