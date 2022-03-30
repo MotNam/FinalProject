@@ -47,6 +47,13 @@ async function removeTask(task) {
   await fetchAllTasks();
 }
 
+async function showComplete(item) {
+
+  item.is_complete = !item.is_complete;
+  console.log(item.is_complete)
+  await storeTasks.isComplete(item.is_complete, item.id)
+  await fetchAllTasks();
+}
 //Log out function
 async function logout(){
   await user.signOut();
@@ -59,51 +66,42 @@ async function logout(){
 
 <div class="md:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin">
       <!-- Add new task  -->
-      <div class="" v-for="task in allTasks" :key="task.id"></div>
+  <div class="" v-for="task in allTasks" :key="task.id"></div>
     <input 
     v-model="newTask"
+    v-on:keyup.enter ="addTask"
     class="md:flex min-w-full p-4 rounded" 
     type="text"
     placeholder=" write here... "/>
     
     <div class="mb-5">
+    
     <button @click ="addTask" class=" bg-gray-500 text-stone-300 p-4 rounded hover:text-yellow-200">➕ Add task</button>  
     </div>  
 
      <!-- show each task input--->
     <div v-for="task in allTasks"  :key="task.id">
-     <span type="text" class ="p-2 underline-offset-8 underline decoration-yellow-600 ">{{ task.title }}</span>
+     <span class ="p-2 underline-offset-8 underline decoration-yellow-600 ">{{ task.title }}</span>
 
 
-    <!---edit button---->
+    <!---change state to true in order to open input and show task just entered (due to v-model), so that edit is possible--->
 
+<div>
     <button @click="changeState()" class="p-5 hover:bg-stone-200">🖍️</button>
     <input v-if ="nowEditing" 
      v-model = "task.title"
     />
+    <!-- update the edited task on Supabase and hide input-->
     <button @click ="saveEdit(task)">save</button> 
-    
-    <!--  delete button -->
+
+    <!-- task completed -->
+<div >
+    <button class="p-5" @click ="showComplete(task)">done✅</button>
+</div>
+    <!--  delete task-->
       <button @click ="removeTask(task)" class="p-5 text-xl hover:bg-stone-200">🗑️
       </button>
-       </div>
-   
-
-<!-- Edit task -->
-<!-- <div>
-   <div v-for="task in allTasks"  :key="task.id">
-    <input v-if="editStatus"
-    v-model="task.title"
-    class="p-10" type="checkbox">
-    <span class ="p-2" v-else>{{ task.title }}</span>
-  <button @click ="editMyTask(index)" class="my-5">Edit task</button>
-</div> -->
-
- <!-- Hide if completed, otherwise Show tasks -->
-<div class="mt-20">
-    <button @click ="hideCompleted = !hideCompleted">
-    {{ hideCompleted ? 'Show all tasks' : 'Hide completed' }}
-  </button>
+  </div>    
 </div>
 
 <!-- Logout -->
