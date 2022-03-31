@@ -1,28 +1,38 @@
 <template>
-  <div class="mb-4">
-    <div class="flex justify-between">
-      <h1 class="text-blue-500">{{ item.title }}</h1>
-      <div v-if="item.is_complete">✅</div>
+  <div class="my-10">
+    <div class="flex justify-between align-middle my-5">
+      <h1
+        class="p-2 underline-offset-8 underline decoration-yellow-600 text-gray-700 text-3xl font-light"
+      >
+        {{ item.title }}
+      </h1>
+      <div v-if="item.is_complete" class="text-5xl">✅</div>
     </div>
     <div>
-      <!-- <div v-if="item.is_complete">
-        <h1>completed</h1>
-      </div> -->
-      <!-- <div v-else="!item.is_complete">
-        <h1>Not completed</h1>
-      </div> -->
-      <!-- <div v-if="item.is_complete">✅</div> -->
-      <!-- <div v-else="!item.is_complete">
-        <h1>🛑</h1>
-      </div> -->
-
-      <button @click="toggleTask()" class="text-green-500">Complete</button>
-      <button @click="toggleEdit()" class="hover:bg-stone-200">🖍️</button>
-      <button @click="remove()" class="text-red-500">Delete</button>
+      <button @click="toggleEdit()" class="p-4 px-5 hover:bg-stone-200">
+        🖍️
+      </button>
+      <button
+        @click="toggleTask()"
+        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-semibold"
+      >
+        Done?
+      </button>
+      <button
+        @click="remove()"
+        class="px-5 text-3xl hover:bg-stone-200 rounded p-2 mx-5"
+      >
+        🗑️
+      </button>
     </div>
     <div v-if="editDialog">
-      <input v-model="editTask" type="text" />
-      <button @click.prevent="edit()">Save Edit</button>
+      <input v-model="editTask" type="text" class="p-4" />
+      <button
+        @click.prevent="edit()"
+        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-semibold text-lg"
+      >
+        Save Edit
+      </button>
       <p class="text-red-500 text-xs">{{ errorInput }}</p>
     </div>
   </div>
@@ -46,7 +56,7 @@ const emit = defineEmits([
   "childToggle",
   "childRemove",
   "childEdit",
-  "childToggleEdit",
+  // "childToggleEdit",
 ]);
 
 // Set up the content of the template as an array prop to be used on the parent

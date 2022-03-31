@@ -82,7 +82,7 @@ async function remove(item) {
     class="lg:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
   >
     <div class="flex justify-between">
-      <h1 class="text-4xl py-10">📔 Start here</h1>
+      <h1 class="text-4xl py-10">📔 Start Today</h1>
       <div class="p-10">
         <button
           @click="logout"

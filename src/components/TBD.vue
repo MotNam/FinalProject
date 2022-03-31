@@ -43,3 +43,14 @@
       </button>
     </div>
   </div>
+
+  <!-- <div v-if="item.is_complete">
+        <h1>completed</h1>
+      </div> -->
+      <!-- <div v-else="!item.is_complete">
+        <h1>Not completed</h1>
+      </div> -->
+      <!-- <div v-if="item.is_complete">✅</div> -->
+      <!-- <div v-else="!item.is_complete">
+        <h1>🛑</h1>
+      </div> -->
