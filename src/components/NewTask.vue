@@ -4,17 +4,17 @@ import { supabase } from "../Supabase";
 import { useTaskStore } from "../store/task";
 import { useUserStore } from "../store/user";
 import { useRouter } from "vue-router";
+import TaskItem from "../components/TaskItem.vue";
 
 //To register a new task on Supabase & display
 const newTask = ref("");
 const allTasks = ref([]);
-const errorMsg = ref("");
-const nowEditing = ref(false);
 
 const storeTasks = useTaskStore();
 const user = useUserStore();
 const router = useRouter();
 
+// function to fetch all tasks fromm supabase using pinia
 async function fetchAllTasks() {
   allTasks.value = await storeTasks.fetchTasks();
   console.log(allTasks.value);
@@ -22,40 +22,58 @@ async function fetchAllTasks() {
 
 fetchAllTasks();
 
+// function to add task to supabase using pinia
 async function addTask() {
   await storeTasks.createTask(newTask.value);
-  await fetchAllTasks();
+  fetchAllTasks();
   console.log(newTask.value);
   newTask.value = " ";
 }
 
 ///// Edit task ////
-async function changeState(task, index) {
-  nowEditing.value = !nowEditing.value;
-}
+// async function changeState(task, index) {
+//   nowEditing.value = !nowEditing.value;
+// }
 
-async function saveEdit(item) {
-  await storeTasks.editTask(item.title, item.id);
-  nowEditing.value = false;
-  await fetchAllTasks();
-}
+// async function removeTask(task) {
+//   // const taskId = user.task.title
+//   await storeTasks.deleteTask(task.id);
+//   await fetchAllTasks();
+// }
 
-async function removeTask(task) {
-  // const taskId = user.task.title
-  await storeTasks.deleteTask(task.id);
-  await fetchAllTasks();
-}
+// async function showComplete(item) {
+//   item.is_complete = !item.is_complete;
+//   console.log(item.is_complete);
+//   await storeTasks.isComplete(item.is_complete, item.id);
+//   await fetchAllTasks();
+// }
 
-async function showComplete(item) {
-  item.is_complete = !item.is_complete;
-  console.log(item.is_complete);
-  await storeTasks.isComplete(item.is_complete, item.id);
-  await fetchAllTasks();
-}
 //Log out function
 async function logout() {
   await user.signOut();
   router.push("/auth");
+}
+
+//Toggle Tasks between done & undone [true or false]
+async function toggleTask(item) {
+  const toggleComplete = !item.is_complete;
+  const toggleId = item.id;
+  await useTaskStore().isComplete(toggleComplete, toggleId);
+  fetchAllTasks();
+}
+
+// Function to edit currenTask
+async function saveEdit(item) {
+  const newTaskTitle = item.newValue;
+  const editId = item.oldValue.id;
+  await storeTasks.editTask(newTaskTitle, editId);
+  fetchAllTasks();
+}
+
+// Function to remove currentTask
+async function remove(item) {
+  await useTaskStore().deleteTask(item.id);
+  fetchAllTasks();
 }
 </script>
 
@@ -93,60 +111,15 @@ async function logout() {
         </button>
       </div>
     </div>
-
-    <!-- show each task input--->
-
-    <div v-for="(task, index) in allTasks" :key="task.id">
-      <span class="p-2 underline-offset-8 underline decoration-yellow-600">{{
-        task.title
-      }}</span>
-
-      <!---change state to true in order to open input and show task entered (v-model), so edit is possible--->
-
-      <div>
-        <button
-          @click="changeState(task, index)"
-          class="p-5 hover:bg-stone-200"
-        >
-          🖍️
-        </button>
-        <!-- <input
-          v-if="nowEditing"
-          v-model="task.title"
-          type="text"
-          class="min-w-full p-4"
-        /> -->
-        <!-- update edited task on Supabase and hide input-->
-        <!-- <button class="p-4 hover:bg-cyan-200 text-lg" @click="saveEdit(task)">
-          save edit
-        </button> -->
-
-        <div v-if="nowEditing" class="flex flex-row">
-          <input v-model="task.title" type="text" class="w-4/6 p-4" />
-          <button
-            class="p-4 bg-blue-200 hover:bg-cyan-200 text-lg w-2/6"
-            @click="saveEdit(task)"
-          >
-            Update Task
-          </button>
-        </div>
-
-        <!-- task completed -->
-        <!-- <div>
-          <button class="p-4 hover:bg-stone-200" @click="showComplete(task)">
-            ✅
-          </button>
-        </div> -->
-        <!--  delete task-->
-        <!-- <button
-          @click="removeTask(task)"
-          class="p-4 text-xl hover:bg-stone-200"
-        >
-          🗑️
-        </button> -->
-      </div>
-    </div>
-
+    <!-- Task Item -->
+    <TaskItem
+      v-for="(task, index) in allTasks"
+      :key="task.id"
+      :item="task"
+      @childToggle="toggleTask"
+      @childRemove="remove"
+      @childEdit="saveEdit"
+    />
     <!-- Logout -->
     <div class="mt-10">
       <button

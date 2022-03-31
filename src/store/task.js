@@ -33,26 +33,23 @@ export const useTaskStore = defineStore("tasks", {
     },
 
     // Delete task
-    async deleteTask(item) {
+    async deleteTask(id) {
       try {
         const { data, error } = await supabase
           .from("tasks")
           .delete()
-          .match({ id: item });
+          .match({ id: id });
         // console.log("task deleted", item);
       } catch (error) {
         console.log("error", error);
       }
     },
     //Edit task
-
-    async editTask(item, index) {
-      console.log(item);
-      console.log(index);
-      const { error } = await supabase
+    async editTask(title, id) {
+      const { data, error } = await supabase
         .from("tasks")
-        .update({ title: item })
-        .match({ id: index });
+        .update({ title: title })
+        .match({ id: id });
     },
 
     //Is Complete
