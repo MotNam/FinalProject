@@ -10,6 +10,7 @@ import TaskItem from "../components/TaskItem.vue";
 const newTask = ref("");
 const allTasks = ref([]);
 
+//user and task functions to connect to Supabase, stored in Pinia
 const storeTasks = useTaskStore();
 const user = useUserStore();
 const router = useRouter();
@@ -30,24 +31,6 @@ async function addTask() {
   newTask.value = " ";
 }
 
-///// Edit task ////
-// async function changeState(task, index) {
-//   nowEditing.value = !nowEditing.value;
-// }
-
-// async function removeTask(task) {
-//   // const taskId = user.task.title
-//   await storeTasks.deleteTask(task.id);
-//   await fetchAllTasks();
-// }
-
-// async function showComplete(item) {
-//   item.is_complete = !item.is_complete;
-//   console.log(item.is_complete);
-//   await storeTasks.isComplete(item.is_complete, item.id);
-//   await fetchAllTasks();
-// }
-
 //Log out function
 async function logout() {
   await user.signOut();
@@ -62,7 +45,7 @@ async function toggleTask(item) {
   fetchAllTasks();
 }
 
-// Function to edit currenTask
+// Function to edit current Task
 async function saveEdit(item) {
   const newTaskTitle = item.newValue;
   const editId = item.oldValue.id;
@@ -75,39 +58,52 @@ async function remove(item) {
   await useTaskStore().deleteTask(item.id);
   fetchAllTasks();
 }
+
+//function to get time??
+// async function taskTime(item) {
+//   const createdTime = item.inserted_at;
+//   await storeTasks.getTimeStamp(createdTime, item.id);
+//   console.log(createdTime);
+//   fetchAllTasks();
+// }
 </script>
 
 <template>
   <div
-    class="lg:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
+    class="xl:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
   >
     <div class="flex justify-between">
       <h1 class="text-4xl py-10">📔 Start Today</h1>
       <div class="p-10">
         <button
           @click="logout"
-          class="rounded hover:bg-gray-200 hover:text-cyan-600 font-medium py-4"
+          class="rounded hover:bg-gray-200 hover:text-cyan-600 font-medium p-2 ml-3"
         >
-          Log Out
+          Log Out<span class="inline-block align-bottom px-3 text-cyan-500"
+            ><img
+              src="../assets/android-logout-icon-12.jpg"
+              alt="logout"
+              class="w-10"
+          /></span>
         </button>
       </div>
     </div>
     <!-- Add new task Input  -->
-    <div>
+    <div class="inline-flex">
       <input
         v-model="newTask"
         v-on:keyup.enter="addTask"
-        class="min-w-full p-5 rounded mb-2"
+        class="min-w-full p-3 rounded mb-2"
         type="text"
-        placeholder=" to do... "
+        placeholder=" To do... "
       />
 
-      <div class="mb-5">
+      <div class="m-2">
         <button
           @click="addTask"
-          class="bg-gray-500 text-stone-300 p-4 rounded hover:text-yellow-200"
+          class="bg-yellow-500 text-stone-600 p-5 rounded mb-2 hover:text-yellow-200"
         >
-          ➕ Add task
+          ➕Add task
         </button>
       </div>
     </div>
@@ -124,9 +120,14 @@ async function remove(item) {
     <div class="mt-10">
       <button
         @click="logout"
-        class="rounded hover:bg-gray-200 hover:text-cyan-600 font-medium py-4"
+        class="rounded hover:bg-gray-200 hover:text-cyan-600 font-medium p-3"
       >
-        Log Out
+        <span class="inline-block align-bottom px-3 text-cyan-500"
+          ><img
+            src="../assets/android-logout-icon-12.jpg"
+            alt="logout"
+            class="w-10" /></span
+        >Log Out
       </button>
     </div>
   </div>

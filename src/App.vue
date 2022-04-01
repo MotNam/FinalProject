@@ -6,7 +6,7 @@
   <!-- Check if user is available in the store, if not show auth compoenent -->
 
   <section>
-    <router-view class="app-main" />
+    <router-view class="app-main min-h-screen" />
   </section>
 </template>
 

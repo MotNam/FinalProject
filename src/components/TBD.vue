@@ -54,3 +54,21 @@
       <!-- <div v-else="!item.is_complete">
         <h1>🛑</h1>
       </div> -->
+
+///// Edit task ////
+// async function changeState(task, index) {
+//   nowEditing.value = !nowEditing.value;
+// }
+
+// async function removeTask(task) {
+//   // const taskId = user.task.title
+//   await storeTasks.deleteTask(task.id);
+//   await fetchAllTasks();
+// }
+
+// async function showComplete(item) {
+//   item.is_complete = !item.is_complete;
+//   console.log(item.is_complete);
+//   await storeTasks.isComplete(item.is_complete, item.id);
+//   await fetchAllTasks();
+// }

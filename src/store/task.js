@@ -61,4 +61,11 @@ export const useTaskStore = defineStore("tasks", {
       if (error) throw error;
     },
   },
+  // async getTimeStamp(time, item) {
+  //   const { data: tasks, error } = await supabase
+  //     .from("tasks")
+  //     .select({ inserted_at: time })
+  //     .match({ id: item });
+  //   console.log("inserted_at");
+  // },
 });

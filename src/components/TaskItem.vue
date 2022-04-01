@@ -1,23 +1,27 @@
 <template>
   <div class="my-10">
-    <div class="flex justify-between align-middle my-5">
+    <!-- show added task -->
+    <div class="flex justify-items-start align-middle my-5">
       <h1
         class="p-2 underline-offset-8 underline decoration-yellow-600 text-gray-700 text-3xl font-light"
       >
         {{ item.title }}
       </h1>
-      <div v-if="item.is_complete" class="text-5xl">✅</div>
+      <div v-if="item.is_complete" class="text-4xl p-2">✅</div>
     </div>
+    <!-- show Edit dialog -->
     <div>
       <button @click="toggleEdit()" class="p-4 px-5 hover:bg-stone-200">
         🖍️
       </button>
+      <!-- Show done/undone -->
       <button
         @click="toggleTask()"
-        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-semibold"
+        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-light"
       >
         Done?
       </button>
+      <!-- delete function -->
       <button
         @click="remove()"
         class="px-5 text-3xl hover:bg-stone-200 rounded p-2 mx-5"
@@ -25,11 +29,11 @@
         🗑️
       </button>
     </div>
-    <div v-if="editDialog">
-      <input v-model="editTask" type="text" class="p-4" />
+    <div v-if="editDialog" class="justify-between">
+      <input v-model="editTask" type="text" class="min-w-full p-4" />
       <button
         @click.prevent="edit()"
-        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-semibold text-lg"
+        class="hover:bg-stone-200 rounded p-3 text-cyan-800 font-semibold text-xl"
       >
         Save Edit
       </button>
@@ -94,11 +98,11 @@ function edit() {
     editTask.value = ""; // clears input field
   }
 }
-// //Error Handling Funciton
+// //Error Handling Function
 // function errorHandle() {
 //   errorInput.value = "Task field edit cannot be empty";
 //   empty.value = true;
-// }
+// }--->NEEDS TO BE BEFORE EDIT FUNCTION
 
 // Function to remove items
 function remove() {
