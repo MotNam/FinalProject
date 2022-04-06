@@ -1,44 +1,56 @@
 <template>
   <div class="my-10">
     <!-- show added task -->
-    <div class="flex justify-items-start align-middle my-5">
+    <div v-if="editDialog">
+      <input
+        class="flex sm:w-1/2 p-4 rounded justify-items-start align-middle my-5"
+        v-model="editTask"
+        type="text"
+      />
+    </div>
+
+    <div v-else class="flex-nowrap">
       <h1
         class="p-2 underline-offset-8 underline decoration-yellow-600 text-gray-700 text-3xl font-light"
       >
         {{ item.title }}
       </h1>
-      <div v-if="item.is_complete" class="text-4xl p-2">✅</div>
+      <span v-if="item.is_complete" class="text-3xl p-2">✅</span>
     </div>
-    <!-- show Edit dialog -->
-    <div>
-      <button @click="toggleEdit()" class="p-4 px-5 hover:bg-stone-200">
-        🖍️
-      </button>
-      <!-- Show done/undone -->
-      <button
-        @click="toggleTask()"
-        class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-light"
-      >
-        Done?
-      </button>
-      <!-- delete function -->
-      <button
-        @click="remove()"
-        class="px-5 text-3xl hover:bg-stone-200 rounded p-2 mx-5"
-      >
-        🗑️
-      </button>
-    </div>
+  </div>
+  <!-- show Edit dialog -->
+  <div class="flex flex-col items-start md:flex-row">
+    <button
+      v-if="!editDialog"
+      @click="toggleEdit()"
+      class="p-2 mx-5 hover:bg-stone-200 text-stone-600"
+    >
+      edit 🖍️
+    </button>
     <div v-if="editDialog" class="justify-between">
-      <input v-model="editTask" type="text" class="min-w-full p-4" />
+      <!-- <input v-model="editTask" type="text" class="min-w-full p-4" /> -->
       <button
         @click.prevent="edit()"
-        class="hover:bg-stone-200 rounded p-3 text-cyan-800 font-semibold text-xl"
+        class="hover:bg-stone-200 rounded p-3 text-yellow-700 font-light text-xl"
       >
-        Save Edit
+        save_edit
       </button>
       <p class="text-red-500 text-xs">{{ errorInput }}</p>
     </div>
+    <!-- Show done/undone -->
+    <button
+      @click="toggleTask()"
+      class="hover:bg-stone-200 rounded p-2 mx-5 text-cyan-800 font-light align-text-top"
+    >
+      done?
+    </button>
+    <!-- delete function -->
+    <button
+      @click="remove()"
+      class="text-2xl hover:bg-stone-200 rounded p-2 mx-5 text-gray-600"
+    >
+      delete 🗑️
+    </button>
   </div>
 </template>
 
@@ -52,7 +64,7 @@ let errorInput = ref(""); // error message variable
 // Edit Task Variables
 let editTask = ref(""); // value from edit dialog
 let editDialog = ref(false); // initially hidden where the input field will go
-let currentIndex = ref(""); // Used to pick only the selected task to be edited
+let currentIndex = ref(""); // Used to pick only the selected task to be edited???
 let taskDone = true; // toggles boolean
 
 // Definition of childFunctions that will be used on parent component
@@ -95,7 +107,7 @@ function edit() {
       newValue: editTask.value,
     };
     emit("childEdit", editValues);
-    editTask.value = ""; // clears input field
+    editDialog.value = false; // hides input container
   }
 }
 // //Error Handling Function

@@ -93,6 +93,7 @@ async function registration() {
   if (password.value === confirmPassword.value) {
     try {
       await user.signUp(email.value, password.value);
+      alert("please check your email to confirm sign up");
 
       const { error } = await supabase.auth.signUp({
         email: email.value,

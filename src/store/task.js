@@ -40,6 +40,7 @@ export const useTaskStore = defineStore("tasks", {
           .delete()
           .match({ id: id });
         // console.log("task deleted", item);
+        alert("are you sure?");
       } catch (error) {
         console.log("error", error);
       }

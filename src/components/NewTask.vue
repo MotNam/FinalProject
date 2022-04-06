@@ -70,7 +70,7 @@ async function remove(item) {
 
 <template>
   <div
-    class="xl:flex min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
+    class="xl:p-10 min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
   >
     <div class="flex justify-between">
       <h1 class="text-4xl py-10">📔 Start Today</h1>
@@ -89,11 +89,11 @@ async function remove(item) {
       </div>
     </div>
     <!-- Add new task Input  -->
-    <div class="inline-flex">
+    <div class="md:inline-flex sm:flex sm:justify-items-start">
       <input
         v-model="newTask"
         v-on:keyup.enter="addTask"
-        class="min-w-full p-3 rounded mb-2"
+        class="min-w-full p-4 rounded mb-2 text-center sm:text-left"
         type="text"
         placeholder=" To do... "
       />
@@ -101,7 +101,7 @@ async function remove(item) {
       <div class="m-2">
         <button
           @click="addTask"
-          class="bg-yellow-500 text-stone-600 p-5 rounded mb-2 hover:text-yellow-200"
+          class="bg-yellow-500 text-stone-600 p-4 rounded mb-2 hover:text-yellow-200 sm:flex"
         >
           ➕Add task
         </button>
