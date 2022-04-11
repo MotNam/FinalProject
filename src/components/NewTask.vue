@@ -59,6 +59,18 @@ async function remove(item) {
   fetchAllTasks();
 }
 
+// Show signed In user value
+function showUserName() {
+  const email = user.user.email;
+  const userName = email.indexOf("@");
+  return email.slice(0, userName);
+}
+
+// Clear input value
+function clearInput() {
+  newTask.value = "";
+}
+
 //function to get time??
 // async function taskTime(item) {
 //   const createdTime = item.inserted_at;
@@ -73,7 +85,10 @@ async function remove(item) {
     class="xl:p-10 min-h-screen p-20 bg-stone-300 h-full text-2xl text-gray-700 font-thin"
   >
     <div class="flex justify-between">
-      <h1 class="text-4xl py-10">📔 Start Today</h1>
+      <h1 class="text-4xl py-10">
+        📔 Hi <span class="text-yellow-600">{{ showUserName() }}! </span>
+        <span class="hidden">Start Now</span>
+      </h1>
       <div class="p-10">
         <button
           @click="logout"
@@ -89,11 +104,11 @@ async function remove(item) {
       </div>
     </div>
     <!-- Add new task Input  -->
-    <div class="md:inline-flex sm:flex sm:justify-items-start">
+    <div class="sm:flex sm:justify-items-start">
       <input
         v-model="newTask"
         v-on:keyup.enter="addTask"
-        class="min-w-full p-4 rounded mb-2 text-center sm:text-left"
+        class="w-2/3 p-4 rounded mb-2 text-center sm:text-left"
         type="text"
         placeholder=" To do... "
       />
@@ -101,9 +116,18 @@ async function remove(item) {
       <div class="m-2">
         <button
           @click="addTask"
-          class="bg-yellow-500 text-stone-600 p-4 rounded mb-2 hover:text-yellow-200 sm:flex"
+          class="bg-yellow-500 text-stone-600 p-3 rounded m-2 hover:text-yellow-200 sm:flex"
         >
-          ➕Add task
+          ➕Add
+        </button>
+
+        <!-- clear new task input -->
+        <button
+          v-if="newTask"
+          @click="clearInput"
+          class="bg-stone-400 text-stone-200 p-2 rounded m-2 hover:text-yellow-400 sm:flex"
+        >
+          Clear
         </button>
       </div>
     </div>

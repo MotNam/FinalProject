@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen p-20 bg-stone-300 h-full">
-    <h1 class="text-3xl font-bold p-20">My Task Organizer</h1>
+    <h1 class="text-3xl font-bold p-20">Welcome to your Task Organizer</h1>
     <Nav />
 
     <!-- <Login /> -->

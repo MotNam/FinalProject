@@ -15,6 +15,10 @@
       >
         {{ item.title }}
       </h1>
+      <!-- Added At -->
+      <span class="p-2 text-right text-base font-mono w-full sm:w-1/2">
+        created: {{ item.inserted_at.split("T")[0] }}
+      </span>
       <span v-if="item.is_complete" class="text-3xl p-2">✅</span>
     </div>
   </div>
@@ -35,7 +39,8 @@
       >
         save_edit
       </button>
-      <p class="text-red-500 text-xs">{{ errorInput }}</p>
+
+      <p v-if="empty" class="text-red-500 text-sm">{{ errorInput }}</p>
     </div>
     <!-- Show done/undone -->
     <button
